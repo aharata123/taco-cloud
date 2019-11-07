@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class Order {
 
@@ -53,6 +55,9 @@ public class Order {
   //tag::allButValidation[]
   private String ccCVV;
 
+  private Long id;
+
+  private Date placedAt;
 }
 //end::allButValidation[]
 //end::all[]
