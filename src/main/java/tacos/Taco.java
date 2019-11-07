@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 // tag::allButValidation[]
 import lombok.Data;
- saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
 @Data
 public class Taco {
 
@@ -20,13 +20,12 @@ public class Taco {
   // end::allButValidation[]
   @Size(min=1, message="You must choose at least 1 ingredient")
   // tag::allButValidation[]
-  private List<String> ingredients;
+  private List<Ingredient> ingredients;
 
   private Long id;
 
   private Date createdAt;
 
-  private String hello;
 }
 //end::allButValidation[]
 //tag::end[]

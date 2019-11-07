@@ -66,7 +66,7 @@ public class DesignTacoControllerTest {
     
     design = new Taco();
     design.setName("Test Taco");
-    design.setIngredients(Arrays.asList("FLTO", "GRBF", "CHED"));
+//    design.setIngredients(Arrays.asList("FLTO", "GRBF", "CHED"));
 //tag::testShowDesignForm[]
   }
 

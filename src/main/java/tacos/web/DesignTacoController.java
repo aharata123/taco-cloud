@@ -7,25 +7,48 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+import tacos.Order;
 import tacos.Taco;
+import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
 
+	private final IngredientRepository ingredientRepo;
+	private TacoRepository designRepo;
+
+	@Autowired
+	public DesignTacoController(
+			IngredientRepository ingredientRepo,
+			TacoRepository designRepo) {
+		this.ingredientRepo = ingredientRepo;
+		this.designRepo = designRepo;
+	}
 //end::head[]
+
+	@ModelAttribute(name = "order")
+	public Order order() {
+		return new Order();
+	}
+
+	@ModelAttribute(name = "taco")
+	public Taco taco() {
+		return new Taco();
+	}
+
 
 @ModelAttribute
 public void addIngredientsToModel(Model model) {
@@ -74,11 +97,12 @@ public void addIngredientsToModel(Model model) {
 
 //tag::processDesignValidated[]
   @PostMapping
-  public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
+  public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order) {
     if (errors.hasErrors()) {
       return "design";
     }
-
+	  Taco saved = designRepo.save(design);
+	  order.addDesign(saved);
     // Save the taco design...
     // We'll do this in chapter 3
     log.info("Processing design: " + design);
@@ -96,6 +120,7 @@ public void addIngredientsToModel(Model model) {
               .filter(x -> x.getType().equals(type))
               .collect(Collectors.toList());
   }
+
 
 //end::filterByType[]
 // tag::foot[]
