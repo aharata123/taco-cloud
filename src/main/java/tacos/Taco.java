@@ -26,6 +26,7 @@ public class Taco {
 
   private Date createdAt;
 
+  private String hello;
 }
 //end::allButValidation[]
 //tag::end[]
